@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -127,7 +126,7 @@
             width: 100%;
             height: 100%;
             top: 0; left: 0;
-            background: radial-gradient(circle at center, rgba(112,214,255,0.3) 0%, rgba(112,214,255,0) 70%);
+            background: radial-gradient(circle at var(--x, center), rgba(112,214,255,0.3) 0%, rgba(112,214,255,0) 70%);
             opacity: 0;
             transition: opacity 0.3s;
             pointer-events: none;
@@ -222,7 +221,7 @@
 
         .armas-content { max-width: 65%; }
         .armas-banner h3 { font-size: 3rem; color: var(--accent-pink); margin-bottom: 20px; text-shadow: 0 0 15px var(--accent-pink); }
-        .armas-banner p { color: var(--dim-text); font-size: 1.2rem; }
+        .armas-banner p { color: var(--dim-text); font-size: 1.2rem; margin-bottom: 0; }
         
         .armas-btn-premium {
             padding: 20px 50px;
@@ -381,7 +380,8 @@
     <div class="armas-banner">
         <div class="armas-content">
             <h3>🛡️ Suministros Élite de Rol</h3>
-            <p class="armas-text">Eleva tus escenas de acción con nuestra colección de armamento de edición coleccionista. Estos paquetes ofrecen herramientas de alta gama con un sistema logístico integrado, permitiéndote centrarte en el rol sin interrupciones por falta de suministros.</p>
+            <p>Eleva tus escenas de acción con nuestra colección de armamento de edición coleccionista. Estos paquetes ofrecen herramientas de alta gama con un sistema logístico integrado, permitiéndote centrarte en el rol sin interrupciones por falta de suministros.</p>
+        </div>
         <a href="#" class="armas-btn-premium">Ver Catálogo</a>
     </div>
 
@@ -389,7 +389,7 @@
     <div class="neon-grid">
         <div class="neon-card coche-card">
             <div class="coche-img-container">
-                <img src="https://files.libertycity.net/download/gta5_lamborghini/fulls/2024-11/lamborghini-revuelto-duke-dynamics_1731447877_338162.webp">
+                <img class="coche-img" src="https://files.libertycity.net/download/gta5_lamborghini/fulls/2024-11/lamborghini-revuelto-duke-dynamics_1731447877_338162.webp" alt="Lamborghini">
             </div>
             <div style="padding: 30px;">
                 <div class="card-title">Lamborghini Revuelto</div>
@@ -400,7 +400,7 @@
 
         <div class="neon-card coche-card">
             <div class="coche-img-container">
-                <img src="https://img.gta5-mods.com/q95/images/pfister-911-rs-darling-animated-fivem-addon/c5036b-pfister_911turbo1.png">
+                <img class="coche-img" src="https://img.gta5-mods.com/q95/images/pfister-911-rs-darling-animated-fivem-addon/c5036b-pfister_911turbo1.png" alt="Porsche">
             </div>
             <div style="padding: 30px;">
                 <div class="card-title">Porsche 911 GT3</div>
@@ -418,7 +418,7 @@
 </footer>
 
 <script>
-    // 1. ANIMACIÓN DE APARICIÓN AL HACER SCROLL (Intersection Observer)
+    // 1. ANIMACIÓN DE APARICIÓN AL HACER SCROLL
     const observerOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -434,7 +434,7 @@
         observer.observe(el);
     });
 
-    // 2. EFECTO DE MOVIMIENTO 3D Y LUZ DE NEÓN QUE SIGUE AL RATÓN
+    // 2. EFECTO DE MOVIMIENTO 3D Y LUZ DE NEÓN
     const cards = document.querySelectorAll('.neon-card');
     cards.forEach(card => {
         card.addEventListener('mousemove', e => {
@@ -442,20 +442,16 @@
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
             
-            // Efecto de inclinación 3D (tilt)
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
             const tiltX = (y - centerY) / 20; 
             const tiltY = (centerX - x) / 20; 
             
             card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-10px)`;
-            
-            // Actualizar la posición del brillo neón (radial gradient)
             card.style.setProperty('--x', `${x}px`);
             card.style.setProperty('--y', `${y}px`);
         });
 
-        // Resetear la inclinación al salir el ratón
         card.addEventListener('mouseleave', () => {
             card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
         });
