@@ -3,17 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dulce RP | Sistema de Soporte y Beneficios</title>
+    <title>Dulce RP | Tienda y Soporte</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #0a0a0a;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --accent-gold: #ffcc00;
+            --bg-color: #0d0d1a;
+            --card-color: #1a1a2e;
+            --main-text: #ffffff;
+            --dim-text: #b0b0d0;
             --accent-pink: #ff85a1;
+            --accent-gold: #ffcc00;
             --accent-blue: #70d6ff;
-            --text-main: #ffffff;
-            --text-dim: #b0b0b0;
+            
+            /* Colores de Borde */
+            --border-popcorn: #ff85a1;
+            --border-miel: #ffcc00;
+            --border-granizado: #70d6ff;
+            --border-default: #4f4f7f;
         }
 
         * {
@@ -24,380 +30,329 @@
         }
 
         body {
-            background-color: var(--bg);
-            color: var(--text-main);
+            background-color: var(--bg-color);
+            color: var(--main-text);
             overflow-x: hidden;
             line-height: 1.6;
+            background-image: radial-gradient(circle at 50% -20%, #2a1b3d 0%, var(--bg-color) 70%);
         }
 
-        /* Fondo Animado */
-        .bg-animate {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #0a0a0a 100%);
-        }
-
-        .blob {
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            background: linear-gradient(45deg, #ff85a133, #70d6ff33);
-            filter: blur(80px);
-            border-radius: 50%;
-            animation: move 20s infinite alternate;
-        }
-
-        @keyframes move {
-            from { transform: translate(-10%, -10%); }
-            to { transform: translate(20%, 20%); }
-        }
-
-        header {
-            height: 60vh;
+        .hero {
+            height: 40vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 20px;
-            animation: fadeIn 1.5s ease;
+            position: relative;
         }
 
-        header h1 {
-            font-size: 4rem;
+        .hero h1 {
+            font-size: 5rem;
             font-weight: 800;
-            letter-spacing: -2px;
-            background: linear-gradient(to right, var(--accent-pink), var(--accent-blue));
+            background: linear-gradient(to right, #ff85a1, #70d6ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-        }
-
-        header p {
-            color: var(--text-dim);
-            max-width: 600px;
-            font-size: 1.1rem;
+            filter: drop-shadow(0 0 15px rgba(255,133,161,0.5));
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        section {
-            margin-bottom: 100px;
+            padding: 20px;
         }
 
         h2.section-title {
             text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 50px;
+            font-size: 2.8rem;
+            margin: 80px 0 60px;
             position: relative;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
 
-        h2.section-title::after {
-            content: '';
-            display: block;
-            width: 50px;
-            height: 4px;
-            background: var(--accent-pink);
-            margin: 10px auto;
-            border-radius: 2px;
-        }
-
-        /* Grid de RANGOS DONADORES */
-        .donadores-grid {
+        /* --- ESTILO BASE DE TARJETA NEON GLASS --- */
+        .neon-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: 20px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            border-color: var(--accent-pink);
-            box-shadow: 0 10px 30px rgba(255, 133, 161, 0.2);
-        }
-
-        .card h3 {
-            font-size: 1.4rem;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .price-tag {
-            font-size: 0.9rem;
-            color: var(--accent-blue);
-            font-weight: 600;
-            display: block;
-            margin-top: 10px;
-        }
-
-        /* Sección VIP */
-        .vip-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
             gap: 30px;
         }
 
-        .vip-card {
-            background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
-            border-radius: 24px;
-            padding: 40px;
-            border-left: 5px solid var(--accent-blue);
+        .neon-card {
+            background-color: var(--card-color);
+            border-radius: 20px;
+            padding: 35px;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        .vip-card.popcorn { border-color: #ffca3a; }
-        .vip-card.miel { border-color: #ff9f1c; }
-        .vip-card.granizado { border-color: #118ab2; }
-
-        .vip-card ul {
-            list-style: none;
-            margin: 20px 0;
+        /* Efectos de Hover */
+        .neon-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(112,214,255,0.3);
         }
 
-        .vip-card ul li {
-            margin-bottom: 12px;
-            color: var(--text-dim);
+        .neon-card.border-left { border-left-width: 5px; }
+        .neon-card.border-full { border-width: 3px; }
+
+        /* Títulos de Tarjeta con Icono */
+        .card-title {
+            font-size: 1.8rem;
             display: flex;
             align-items: center;
-        }
-
-        .vip-card ul li::before {
-            content: '✦';
-            margin-right: 10px;
-            color: var(--accent-pink);
-        }
-
-        /* Sección Armas "Suministros" */
-        .armas-section {
-            background: rgba(255, 133, 161, 0.05);
-            padding: 60px;
-            border-radius: 40px;
-            border: 1px dashed rgba(255, 255, 255, 0.1);
-        }
-
-        .armas-content {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 40px;
-            align-items: center;
-        }
-
-        .armas-text {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .armas-text h3 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-        }
-
-        .badge-p2w-no {
-            display: inline-block;
-            padding: 5px 15px;
-            background: rgba(112, 214, 255, 0.2);
-            color: var(--accent-blue);
-            border-radius: 50px;
-            font-size: 0.8rem;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 15px 35px;
-            background: var(--accent-pink);
-            color: white;
-            text-decoration: none;
-            border-radius: 12px;
+            gap: 15px;
+            margin-bottom: 25px;
+            color: var(--main-text);
             font-weight: 600;
-            margin-top: 20px;
+        }
+
+        .card-title img { width: 32px; height: 32px; }
+
+        /* Lista de Beneficios */
+        .card-list {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .card-list li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            color: var(--dim-text);
+            font-size: 1rem;
+        }
+
+        .card-list li::before {
+            content: '✦'; /* Estrella de tus imágenes */
+            color: var(--accent-pink);
+            margin-right: 12px;
+            font-size: 0.8rem;
+        }
+
+        /* Precio y Botón */
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.4);
+            padding: 15px 20px;
+            border-radius: 12px;
+        }
+
+        .price-tag {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--accent-blue);
+        }
+
+        .btn-action {
+            padding: 10px 30px;
+            background: rgba(112,214,255,0.1);
+            color: var(--accent-blue);
+            text-decoration: none;
+            border-radius: 30px;
+            border: 2px solid var(--accent-blue);
+            font-weight: 600;
             transition: 0.3s;
         }
 
-        .btn:hover {
-            box-shadow: 0 0 20px var(--accent-pink);
-            transform: scale(1.05);
+        .btn-action:hover {
+            background: var(--accent-blue);
+            color: var(--bg-color);
+            box-shadow: 0 0 15px var(--accent-blue);
         }
+
+        /* --- ESTILO DONADORES --- */
+        .grid-donadores {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .donador-card {
+            background: rgba(255,255,255,0.03);
+            border: 2px solid rgba(255,255,255,0.05);
+            padding: 25px;
+            border-radius: 15px;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .donador-card:hover {
+            transform: scale(1.03);
+            background: rgba(255,255,255,0.07);
+            border-color: var(--accent-pink);
+            box-shadow: 0 0 20px rgba(255,133,161,0.2);
+        }
+
+        .donador-card .card-title { font-size: 1.3rem; margin-bottom: 10px; }
+        .donador-card .range-info { font-weight: bold; color: var(--accent-gold); margin-top: 10px; }
+
+        /* --- SECCIÓN ARMAS --- */
+        .armas-section {
+            background: rgba(255, 133, 161, 0.03);
+            padding: 60px;
+            border-radius: 30px;
+            margin-top: 80px;
+            text-align: center;
+            border: 1px dashed rgba(255,255,255,0.1);
+        }
+
+        .armas-title { font-size: 2.5rem; margin-bottom: 20px; }
+        .armas-text { color: var(--dim-text); max-width: 900px; margin: 0 auto 30px; }
+        .armas-btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: var(--accent-pink);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 800;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+        .armas-btn:hover { box-shadow: 0 0 25px var(--accent-pink); transform: scale(1.05); }
 
         footer {
             text-align: center;
-            padding: 40px;
-            color: var(--text-dim);
+            padding: 50px;
+            color: var(--dim-text);
             font-size: 0.8rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            margin-top: 50px;
         }
 
         @media (max-width: 768px) {
-            header h1 { font-size: 2.5rem; }
+            .hero h1 { font-size: 3rem; }
+            .neon-grid { grid-template-columns: 1fr; }
             .armas-section { padding: 30px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-animate">
-        <div class="blob"></div>
+<div class="hero">
+    <h1>DULCE RP</h1>
+    <p>Apoya el crecimiento de nuestra ciudad y eleva tu experiencia de juego.</p>
+</div>
+
+<div class="container">
+
+    <h2 class="section-title">Membresías VIP</h2>
+    <div class="neon-grid">
+        <div class="neon-card border-left" style="border-left-color: var(--border-popcorn);">
+            <div class="card-title">🍿 VIP Popcorn Suprema</div>
+            <ul class="card-list">
+                <li>2000€ de asignación cada 15 min</li>
+                <li>750k de Capital Inicial Inmediato</li>
+                <li>Acceso a Concesionario VIP</li>
+                <li>Acceso a Inmobiliaria Privada</li>
+                <li>Sorteos de alta gama mensuales</li>
+            </ul>
+            <div class="card-footer"><span class="price-tag">+80€ / Mes</span><a href="#" class="btn-action">Obtener</a></div>
+        </div>
+
+        <div class="neon-card border-left" style="border-left-color: var(--border-miel);">
+            <div class="card-title">🍯 VIP Miel Diamante</div>
+            <ul class="card-list">
+                <li>1250€ de asignación cada 15 min</li>
+                <li>450k de Capital Inicial Inmediato</li>
+                <li>Acceso a Concesionario VIP</li>
+                <li>Rango Exclusivo en Discord</li>
+                <li>Sorteos exclusivos</li>
+            </ul>
+            <div class="card-footer"><span class="price-tag">+65€ / Mes</span><a href="#" class="btn-action">Obtener</a></div>
+        </div>
+
+        <div class="neon-card border-left" style="border-left-color: var(--border-granizado);">
+            <div class="card-title">🍧 VIP Granizado Ultra</div>
+            <ul class="card-list">
+                <li>725€ de asignación cada 15 min</li>
+                <li>100k de Capital Inicial Inmediato</li>
+                <li>Acceso a Concesionario VIP</li>
+                <li>Rango Discord Especial</li>
+            </ul>
+            <div class="card-footer"><span class="price-tag">+45€ / Mes</span><a href="#" class="btn-action">Obtener</a></div>
+        </div>
+
+        <div class="neon-card border-full" style="border-color: #d4a373; box-shadow: 0 10px 30px rgba(212,163,115,0.2);">
+            <div class="card-title">🥨 VIP Pretzel Platino</div>
+            <ul class="card-list">
+                <li>500€ cada 15 minutos</li>
+                <li>50k de Dinero inmediato</li>
+                <li>Acceso a Concesionario VIP</li>
+                <li>Rango Discord</li>
+            </ul>
+            <div class="card-footer"><span class="price-tag">+25€ / Mes</span><a href="#" class="btn-action">Obtener</a></div>
+        </div>
+
+        <div class="neon-card border-full" style="border-color: #f4d35e; box-shadow: 0 10px 30px rgba(244,211,94,0.2);">
+            <div class="card-title">🥞 VIP Pancake Gold</div>
+            <ul class="card-list">
+                <li>350€ cada 15 minutos</li>
+                <li>35k de Dinero inmediato</li>
+                <li>Rango Discord</li>
+            </ul>
+            <div class="card-footer"><span class="price-tag">+15€ / Mes</span><a href="#" class="btn-action">Obtener</a></div>
+        </div>
+
+        <div class="neon-card border-full" style="border-color: #ee964b; box-shadow: 0 10px 30px rgba(238,150,75,0.2);">
+            <div class="card-title">🍡 VIP Mochi Jaspe</div>
+            <ul class="card-list">
+                <li>200€ cada 15 minutos</li>
+                <li>20k de Dinero inmediato</li>
+                <li>Rango Discord</li>
+            </ul>
+            <div class="card-footer"><span class="price-tag">+5€ / Mes</span><a href="#" class="btn-action">Obtener</a></div>
+        </div>
     </div>
 
-    <header>
-        <h1>DULCE RP</h1>
-        <p>Un proyecto de comunidad donde tu apoyo nos ayuda a seguir construyendo el mundo de rol más ambicioso. Únete a nuestra élite de colaboradores.</p>
-    </header>
-
-    <div class="container">
-        
-        <section id="donadores">
-            <h2 class="section-title">Sistema de Donadores</h2>
-            <div class="donadores-grid">
-                <div class="card">
-                    <h3>🍰 Pastel Supremo</h3>
-                    <p>El estatus máximo en la ciudad. Reconocimiento total y soporte prioritario.</p>
-                    <span class="price-tag">Donación: 2500€ — 5000€</span>
-                </div>
-                <div class="card">
-                    <h3>🍩 Donut Dorado</h3>
-                    <p>Soporte de alto nivel para usuarios que creen en el proyecto.</p>
-                    <span class="price-tag">Donación: 1250€ — 2500€</span>
-                </div>
-                <div class="card">
-                    <h3>🧁 Cupcake Real</h3>
-                    <p>Un rango de prestigio con beneficios estéticos exclusivos.</p>
-                    <span class="price-tag">Donación: 950€ — 1250€</span>
-                </div>
-                <div class="card">
-                    <h3>🍧 Helado Cremoso</h3>
-                    <p>Acceso intermedio con ventajas en la comunidad de Discord.</p>
-                    <span class="price-tag">Donación: 250€ — 500€</span>
-                </div>
-                <div class="card">
-                    <h3>🍮 Flan Inicial</h3>
-                    <p>Tu primer paso apoyando el crecimiento del servidor.</p>
-                    <span class="price-tag">Donación: 25€ — 100€</span>
-                </div>
-                <div class="card">
-                    <h3>🧇 Donador</h3>
-                    <p>Contribución esencial para el mantenimiento mensual.</p>
-                    <span class="price-tag">Donación: 0€ — 25€</span>
-                </div>
-            </div>
-        </section>
-
-        <section id="vips">
-            <h2 class="section-title">Membresías VIP</h2>
-            <div class="vip-grid">
-                <div class="vip-card popcorn">
-                    <h3>🍿 VIP Popcorn Suprema</h3>
-                    <ul>
-                        <li>2000€ de asignación cada 15 min</li>
-                        <li>750k de Capital Inicial Inmediato</li>
-                        <li>Acceso a Concesionario VIP (Modelos Exclusivos)</li>
-                        <li>Gestión de Inmobiliaria Privada</li>
-                        <li>Sorteos de alta gama mensuales</li>
-                    </ul>
-                    <span class="price-tag">+80€ / Mes</span>
-                </div>
-
-                <div class="vip-card miel">
-                    <h3>🍯 VIP Miel Diamante</h3>
-                    <ul>
-                        <li>1250€ de asignación cada 15 min</li>
-                        <li>450k de Capital Inicial Inmediato</li>
-                        <li>Acceso a Concesionario VIP</li>
-                        <li>Rango Exclusivo en nuestra comunidad</li>
-                        <li>Sorteos exclusivos</li>
-                    </ul>
-                    <span class="price-tag">+65€ / Mes</span>
-                </div>
-
-                <div class="vip-card granizado">
-                    <h3>🍧 VIP Granizado Ultra</h3>
-                    <ul>
-                        <li>725€ de asignación cada 15 min</li>
-                        <li>100k de Capital Inicial Inmediato</li>
-                        <li>Acceso a Concesionario VIP</li>
-                        <li>Rango Discord Especial</li>
-                    </ul>
-                    <span class="price-tag">+45€ / Mes</span>
-                </div>
-            </div>
-        </section>
-
-        <section id="suministros">
-            <div class="armas-section">
-                <div class="armas-content">
-                    <div class="armas-text">
-                        <span class="badge-p2w-no">Ediciones Coleccionista</span>
-                        <h3>Colección de Seguridad y Estilo</h3>
-                        <p>
-                            En Dulce RP, entendemos que el rol de acción requiere las mejores herramientas. 
-                            Nuestros paquetes de <strong>Suministros Élite</strong> ofrecen armamento con acabados estéticos únicos y un <strong>sistema de logística integrada</strong>.
-                        </p>
-                        <ul style="list-style: none; margin-top: 20px;">
-                            <li>✅ <strong>Logística Infinita:</strong> Suministro automático de munición para que tu rol no se detenga por falta de stock.</li>
-                            <li>✅ <strong>Seguridad Avanzada:</strong> Equipo de alta durabilidad con trazabilidad personalizada.</li>
-                            <li>✅ <strong>Estética Premium:</strong> Grabados únicos no disponibles en tiendas comunes.</li>
-                        </ul>
-                        <a href="#" class="btn">Explorar Armería Élite</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
+    <h2 class="section-title">Sistema de Donadores</h2>
+    <div class="grid-donadores">
+        <div class="donador-card"><div class="card-title">🍰 Pastel Supremo</div><p class="range-info">2500€ — 5000€</p></div>
+        <div class="donador-card"><div class="card-title">🍩 Donut Dorado</div><p class="range-info">1250€ — 2500€</p></div>
+        <div class="donador-card"><div class="card-title">🧁 Cupcake Real</div><p class="range-info">950€ — 1250€</p></div>
+        <div class="donador-card"><div class="card-title">🍫 Chocolate Maestro</div><p class="range-info">700€ — 950€</p></div>
+        <div class="donador-card"><div class="card-title">🍦 Conito Dulce</div><p class="range-info">500€ — 700€</p></div>
+        <div class="donador-card"><div class="card-title">🍧 Helado Cremoso</div><p class="range-info">250€ — 500€</p></div>
+        <div class="donador-card"><div class="card-title">🍭 Caramelo</h3><p class="range-info">100€ — 250€</p></div>
+        <div class="donador-card"><div class="card-title">🍮 Flan Inicial</div><p class="range-info">25€ — 100€</p></div>
+        <div class="donador-card"><div class="card-title"> waffle Donador waffle waffle</div><p class="range-info">0€ — 25€</p></div>
     </div>
 
-    <footer>
-        <p>&copy; 2024 Dulce RP. Todos los derechos reservados.</p>
-        <p style="margin-top: 10px; font-size: 0.7rem;">Las donaciones son voluntarias y se utilizan para mejorar la estabilidad y contenido del servidor. No se realizan reembolsos.</p>
-    </footer>
+    <div class="armas-section">
+        <h3 class="armas-title">🛡️ Suministros Élite de Rol</h3>
+        <p class="armas-text">Eleva tus escenas de acción con nuestra colección de armamento de edición coleccionista. Estos paquetes ofrecen herramientas de alta gama con un sistema logístico integrado, permitiéndote centrarte en el rol sin interrupciones por falta de suministros.</p>
+        <a href="#" class="armas-btn">Ver Colección de Suministros</a>
+    </div>
 
-    <script>
-        // Efecto de scroll suave para las tarjetas
-        const cards = document.querySelectorAll('.card, .vip-card');
-        const observerOptions = {
-            threshold: 0.1
-        };
+</div>
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
+<footer>
+    <p>&copy; 2026 DULCE RP | FiveM Community</p>
+    <p style="margin-top: 10px; font-size: 0.7rem;">Las contribuciones son voluntarias y se destinan por completo al mantenimiento de la infraestructura del servidor.</p>
+</footer>
 
-        cards.forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(30px)';
-            card.style.transition = 'all 0.6s ease-out';
-            observer.observe(card);
+<script>
+    // Animación de aparición al hacer scroll
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
         });
-    </script>
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.neon-card, .donador-card').forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'all 0.5s ease-out';
+        observer.observe(card);
+    });
+</script>
+
 </body>
 </html>
