@@ -279,6 +279,58 @@
             .hero h1 { font-size: 4rem; }
             .neon-grid { grid-template-columns: 1fr; }
         }
+         /* Contenedor de botones en el Hero */
+.hero-btns {
+    margin-top: 30px;
+    display: flex;
+    gap: 20px;
+    animation: fadeInUp 1.5s ease 0.8s both;
+}
+
+.btn-hero {
+    padding: 15px 35px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Estilo Discord (Azul) */
+.btn-hero.discord {
+    background: #5865F2;
+    color: white;
+    box-shadow: 0 0 20px rgba(88, 101, 242, 0.4);
+}
+
+/* Estilo Saber Más (Borde Neón) */
+.btn-hero.saber-mas {
+    background: transparent;
+    border: 2px solid var(--accent-pink);
+    color: var(--accent-pink);
+    box-shadow: 0 0 15px rgba(255, 133, 161, 0.2);
+}
+
+/* Hovers */
+.btn-hero:hover {
+    transform: translateY(-5px);
+    filter: brightness(1.2);
+}
+
+.btn-hero.discord:hover {
+    box-shadow: 0 0 30px rgba(88, 101, 242, 0.6);
+}
+
+.btn-hero.saber-mas:hover {
+    background: var(--accent-pink);
+    color: white;
+    box-shadow: 0 0 30px rgba(255, 133, 161, 0.5);
+}
     </style>
 </head>
 <body>
@@ -302,8 +354,14 @@
 <div class="hero">
     <h1>DULCE RP</h1>
     <p>Apoya nuestra ciudad y desbloquea el estatus que mereces.</p>
+    <div class="hero-btns">
+        <a href="https://discord.gg/q5u7hkCA" class="btn-hero discord">
+            <i class="fab fa-discord"></i> Discord
+        </a>
+        <a href="#vips" class="btn-hero saber-mas">Saber más</a>
+    </div>
 </div>
-
+    
 <div class="container">
 
     <h2 class="section-title">✨ Membresías VIP Élite</h2>
