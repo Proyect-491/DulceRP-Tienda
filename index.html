@@ -1,373 +1,412 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dulce RP | Tienda y Soporte</title>
+    <title>Dulce RP | Tienda Élite Animada</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0d0d1a;
-            --card-color: #1a1a2e;
+            --bg-color: #080810;
+            --card-color: rgba(26, 26, 46, 0.6);
             --main-text: #ffffff;
             --dim-text: #b0b0d0;
             --accent-pink: #ff85a1;
             --accent-gold: #ffcc00;
             --accent-blue: #70d6ff;
-            
-            /* Colores de Borde */
-            --border-popcorn: #ff85a1;
-            --border-miel: #ffcc00;
-            --border-granizado: #70d6ff;
-            --border-default: #4f4f7f;
+            --neon-glow: 0 0 15px rgba(112,214,255,0.5);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 
         body {
             background-color: var(--bg-color);
             color: var(--main-text);
             overflow-x: hidden;
             line-height: 1.6;
-            background-image: radial-gradient(circle at 50% -20%, #2a1b3d 0%, var(--bg-color) 70%);
+            position: relative;
         }
 
+        /* --- FONDO ANIMADO DE PARTÍCULAS --- */
+        #tsparticles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        /* --- HERO SECTION ANIMADA --- */
         .hero {
-            height: 40vh;
+            height: 50vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
             position: relative;
+            animation: fadeInDown 1.5s ease;
         }
 
         .hero h1 {
-            font-size: 5rem;
+            font-size: 6rem;
             font-weight: 800;
-            background: linear-gradient(to right, #ff85a1, #70d6ff);
+            background: linear-gradient(90deg, #ff85a1, #70d6ff, #ff85a1);
+            background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px rgba(255,133,161,0.5));
+            animation: shine 3s linear infinite;
+            filter: drop-shadow(0 0 20px rgba(255,133,161,0.6));
         }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
+        .hero p {
+            color: var(--dim-text);
+            font-size: 1.2rem;
+            margin-top: 10px;
+            animation: fadeInUp 1.5s ease 0.5s both;
         }
+
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; position: relative; z-index: 1; }
 
         h2.section-title {
             text-align: center;
-            font-size: 2.8rem;
-            margin: 80px 0 60px;
-            position: relative;
-            letter-spacing: 2px;
+            font-size: 3rem;
+            margin: 100px 0 60px;
             text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            display: inline-block;
+            width: 100%;
         }
 
-        /* --- ESTILO BASE DE TARJETA NEON GLASS --- */
+        h2.section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: var(--accent-pink);
+            margin: 15px auto 0;
+            border-radius: 2px;
+            box-shadow: 0 0 15px var(--accent-pink);
+        }
+
+        /* --- GRID Y TARJETAS VIP (GLASSMORPHISM + NEON) --- */
         .neon-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 40px;
         }
 
         .neon-card {
-            background-color: var(--card-color);
-            border-radius: 20px;
-            padding: 35px;
+            background: var(--card-color);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 40px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
             position: relative;
             overflow: hidden;
-            border: 2px solid transparent;
-            transition: all 0.4s ease;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            opacity: 0; /* Para animación de scroll */
+            transform: translateY(40px);
         }
 
-        /* Efectos de Hover */
+        /* Efectos de Hover y Movimiento 3D (vía JS) */
         .neon-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 15px 40px rgba(112,214,255,0.3);
+            border-color: rgba(255,255,255,0.2);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 20px rgba(112,214,255,0.2);
         }
 
-        .neon-card.border-left { border-left-width: 5px; }
-        .neon-card.border-full { border-width: 3px; }
+        /* Brillo neón que sigue al ratón (vía JS) */
+        .neon-card::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0; left: 0;
+            background: radial-gradient(circle at center, rgba(112,214,255,0.3) 0%, rgba(112,214,255,0) 70%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        .neon-card:hover::before { opacity: 1; }
 
-        /* Títulos de Tarjeta con Icono */
         .card-title {
-            font-size: 1.8rem;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 30px;
             display: flex;
             align-items: center;
             gap: 15px;
-            margin-bottom: 25px;
-            color: var(--main-text);
-            font-weight: 600;
+            position: relative;
+            z-index: 2;
         }
 
-        .card-title img { width: 32px; height: 32px; }
-
-        /* Lista de Beneficios */
-        .card-list {
-            list-style: none;
-            margin-bottom: 30px;
-        }
-
+        .card-list { list-style: none; margin-bottom: 40px; flex-grow: 1; position: relative; z-index: 2;}
         .card-list li {
             margin-bottom: 15px;
             display: flex;
             align-items: center;
             color: var(--dim-text);
             font-size: 1rem;
+            transform: translateX(-10px);
+            opacity: 0;
+            transition: all 0.5s ease;
         }
+        .neon-card:hover .card-list li { transform: translateX(0); opacity: 1; }
+        .neon-card:hover .card-list li:nth-child(1) { transition-delay: 0.1s; }
+        .neon-card:hover .card-list li:nth-child(2) { transition-delay: 0.2s; }
+        .neon-card:hover .card-list li:nth-child(3) { transition-delay: 0.3s; }
+        .neon-card:hover .card-list li:nth-child(4) { transition-delay: 0.4s; }
+        .neon-card:hover .card-list li:nth-child(5) { transition-delay: 0.5s; }
 
         .card-list li::before {
-            content: '✦'; /* Estrella de tus imágenes */
+            content: '✦';
             color: var(--accent-pink);
-            margin-right: 12px;
-            font-size: 0.8rem;
+            margin-right: 15px;
+            font-size: 0.9rem;
+            text-shadow: 0 0 10px var(--accent-pink);
         }
 
-        /* Precio y Botón */
         .card-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(0,0,0,0.4);
-            padding: 15px 20px;
-            border-radius: 12px;
+            background: rgba(0,0,0,0.5);
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin-top: 10px;
+            position: relative; z-index: 2;
         }
 
-        .price-tag {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: var(--accent-blue);
-        }
+        .price-tag { font-size: 1.6rem; font-weight: 800; color: var(--accent-blue); text-shadow: var(--neon-glow); }
 
         .btn-action {
-            padding: 10px 30px;
-            background: rgba(112,214,255,0.1);
+            padding: 12px 30px;
+            background: linear-gradient(45deg, rgba(112,214,255,0.1), rgba(112,214,255,0.05));
             color: var(--accent-blue);
             text-decoration: none;
-            border-radius: 30px;
+            border-radius: 40px;
             border: 2px solid var(--accent-blue);
             font-weight: 600;
-            transition: 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(112,214,255,0.3);
         }
 
         .btn-action:hover {
             background: var(--accent-blue);
             color: var(--bg-color);
-            box-shadow: 0 0 15px var(--accent-blue);
+            box-shadow: 0 0 25px var(--accent-blue);
+            transform: scale(1.05);
         }
 
-        /* --- ESTILO DONADORES --- */
-        .grid-donadores {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .donador-card {
-            background: rgba(255,255,255,0.03);
-            border: 2px solid rgba(255,255,255,0.05);
-            padding: 25px;
-            border-radius: 15px;
-            transition: 0.3s;
-            position: relative;
-        }
-
-        .donador-card:hover {
-            transform: scale(1.03);
-            background: rgba(255,255,255,0.07);
-            border-color: var(--accent-pink);
-            box-shadow: 0 0 20px rgba(255,133,161,0.2);
-        }
-
-        .donador-card .card-title { font-size: 1.3rem; margin-bottom: 10px; }
-        .donador-card .range-info { font-weight: bold; color: var(--accent-gold); margin-top: 10px; }
-
-        /* --- SECCIÓN ARMAS --- */
-        .armas-section {
-            background: rgba(255, 133, 161, 0.03);
+        /* --- SECCIÓN ARMAS (BANNER PULSANTE) --- */
+        .armas-banner {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2a1b3d 100%);
+            border: 2px solid var(--accent-pink);
+            border-radius: 35px;
             padding: 60px;
-            border-radius: 30px;
-            margin-top: 80px;
-            text-align: center;
-            border: 1px dashed rgba(255,255,255,0.1);
+            margin: 120px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 50px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(255,133,161,0.2);
+            animation: pulse-glow 3s infinite;
         }
 
-        .armas-title { font-size: 2.5rem; margin-bottom: 20px; }
-        .armas-text { color: var(--dim-text); max-width: 900px; margin: 0 auto 30px; }
-        .armas-btn {
-            display: inline-block;
-            padding: 15px 40px;
+        .armas-content { max-width: 65%; }
+        .armas-banner h3 { font-size: 3rem; color: var(--accent-pink); margin-bottom: 20px; text-shadow: 0 0 15px var(--accent-pink); }
+        .armas-banner p { color: var(--dim-text); font-size: 1.2rem; }
+        
+        .armas-btn-premium {
+            padding: 20px 50px;
             background: var(--accent-pink);
             color: white;
             text-decoration: none;
-            border-radius: 50px;
+            border-radius: 60px;
             font-weight: 800;
-            transition: 0.3s;
             text-transform: uppercase;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            box-shadow: 0 10px 30px rgba(255,133,161,0.4);
         }
-        .armas-btn:hover { box-shadow: 0 0 25px var(--accent-pink); transform: scale(1.05); }
+        .armas-btn-premium:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 15px 45px var(--accent-pink); }
 
-        footer {
-            text-align: center;
-            padding: 50px;
-            color: var(--dim-text);
-            font-size: 0.8rem;
-            margin-top: 50px;
+        /* --- SECCIÓN COCHES (TARJETAS DESLIZANTES) --- */
+        .coche-card {
+            background: rgba(13, 13, 26, 0.8);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: 0.5s;
         }
+        .coche-card:hover { transform: translateY(-10px); border-color: rgba(112,214,255,0.3); }
 
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 3rem; }
+        .coche-img-container {
+            width: 100%;
+            height: 240px;
+            overflow: hidden;
+            position: relative;
+        }
+        .coche-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .coche-card:hover .coche-img { transform: scale(1.1); }
+
+        footer { text-align: center; padding: 80px; color: var(--dim-text); font-size: 0.9rem; border-top: 1px solid rgba(255,255,255,0.05); position: relative; z-index: 1;}
+
+        /* --- KEYFRAMES ANIMACIONES --- */
+        @keyframes shine { to { background-position: 200% center; } }
+        @keyframes pulse-glow { 0% { box-shadow: 0 0 30px rgba(255,133,161,0.2); } 50% { box-shadow: 0 0 50px rgba(255,133,161,0.4); } 100% { box-shadow: 0 0 30px rgba(255,133,161,0.2); } }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 992px) {
+            .armas-banner { flex-direction: column; text-align: center; padding: 40px; gap: 30px; }
+            .armas-content { max-width: 100%; }
+            .hero h1 { font-size: 4rem; }
             .neon-grid { grid-template-columns: 1fr; }
-            .armas-section { padding: 30px; }
         }
     </style>
 </head>
 <body>
 
+<div id="tsparticles"></div>
+<script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+<script>
+    tsParticles.load("tsparticles", {
+        particles: {
+            number: { value: 60 },
+            color: { value: ["#ff85a1", "#70d6ff"] },
+            shape: { type: "circle" },
+            opacity: { value: 0.3 },
+            size: { value: 3 },
+            move: { enable: true, speed: 1.5 },
+            line_linked: { enable: true, distance: 150, color: "#ffffff", opacity: 0.1, width: 1 }
+        }
+    });
+</script>
+
 <div class="hero">
     <h1>DULCE RP</h1>
-    <p>Apoya el crecimiento de nuestra ciudad y eleva tu experiencia de juego.</p>
+    <p>Apoya nuestra ciudad y desbloquea el estatus que mereces.</p>
 </div>
 
 <div class="container">
 
-    <h2 class="section-title">Membresías VIP</h2>
+    <h2 class="section-title">✨ Membresías VIP Élite</h2>
     <div class="neon-grid">
-        <div class="neon-card border-left" style="border-left-color: var(--border-popcorn);">
-            <div class="card-title">🍿 VIP Popcorn Suprema</div>
+        
+        <div class="neon-card VIP-Popcorn" style="border-top: 4px solid var(--accent-pink);">
+            <div class="card-title">🍿 Popcorn Suprema</div>
             <ul class="card-list">
-                <li>2000€ de asignación cada 15 min</li>
-                <li>750k de Capital Inicial Inmediato</li>
-                <li>Acceso a Concesionario VIP</li>
-                <li>Acceso a Inmobiliaria Privada</li>
-                <li>Sorteos de alta gama mensuales</li>
+                <li>2000€ cada 15 min</li>
+                <li>750k Capital Inmediato</li>
+                <li>Concesionario VIP (Modelos Únicos)</li>
+                <li>Gestión Inmobiliaria Privada</li>
+                <li>Sorteos de Alta Gama Mensuales</li>
             </ul>
-            <div class="card-footer"><span class="price-tag">+80€ / Mes</span><a href="#" class="btn-action">Obtener</a></div>
+            <div class="card-footer"><span class="price-tag">80€</span><a href="#" class="btn-action">Obtener</a></div>
         </div>
 
-        <div class="neon-card border-left" style="border-left-color: var(--border-miel);">
-            <div class="card-title">🍯 VIP Miel Diamante</div>
+        <div class="neon-card VIP-Miel" style="border-top: 4px solid var(--accent-gold);">
+            <div class="card-title">🍯 Miel Diamante</div>
             <ul class="card-list">
-                <li>1250€ de asignación cada 15 min</li>
-                <li>450k de Capital Inicial Inmediato</li>
-                <li>Acceso a Concesionario VIP</li>
-                <li>Rango Exclusivo en Discord</li>
-                <li>Sorteos exclusivos</li>
+                <li>1250€ cada 15 min</li>
+                <li>450k Capital Inmediato</li>
+                <li>Concesionario VIP</li>
+                <li>Rango Discord Exclusivo</li>
+                <li>Sorteos VIP</li>
             </ul>
-            <div class="card-footer"><span class="price-tag">+65€ / Mes</span><a href="#" class="btn-action">Obtener</a></div>
+            <div class="card-footer"><span class="price-tag">65€</span><a href="#" class="btn-action">Obtener</a></div>
         </div>
 
-        <div class="neon-card border-left" style="border-left-color: var(--border-granizado);">
-            <div class="card-title">🍧 VIP Granizado Ultra</div>
+        <div class="neon-card VIP-Granizado" style="border-top: 4px solid var(--accent-blue);">
+            <div class="card-title">🍧 Granizado Ultra</div>
             <ul class="card-list">
-                <li>725€ de asignación cada 15 min</li>
-                <li>100k de Capital Inicial Inmediato</li>
-                <li>Acceso a Concesionario VIP</li>
+                <li>725€ cada 15 min</li>
+                <li>100k Capital Inmediato</li>
+                <li>Concesionario VIP</li>
                 <li>Rango Discord Especial</li>
             </ul>
-            <div class="card-footer"><span class="price-tag">+45€ / Mes</span><a href="#" class="btn-action">Obtener</a></div>
+            <div class="card-footer"><span class="price-tag">45€</span><a href="#" class="btn-action">Obtener</a></div>
         </div>
 
-        <div class="neon-card border-full" style="border-color: #d4a373; box-shadow: 0 10px 30px rgba(212,163,115,0.2);">
-            <div class="card-title">🥨 VIP Pretzel Platino</div>
+        <div class="neon-card VIP-Pretzel" style="border-top: 4px solid #d4a373;">
+            <div class="card-title">🥨 Pretzel Platino</div>
             <ul class="card-list">
-                <li>500€ cada 15 minutos</li>
-                <li>50k de Dinero inmediato</li>
-                <li>Acceso a Concesionario VIP</li>
-                <li>Rango Discord</li>
+                <li>500€ cada 15 min</li>
+                <li>50k Capital Inmediato</li>
+                <li>Acceso Concesionario VIP</li>
+                <li>Prioridad Soporte</li>
             </ul>
-            <div class="card-footer"><span class="price-tag">+25€ / Mes</span><a href="#" class="btn-action">Obtener</a></div>
+            <div class="card-footer"><span class="price-tag">25€</span><a href="#" class="btn-action">Obtener</a></div>
         </div>
 
-        <div class="neon-card border-full" style="border-color: #f4d35e; box-shadow: 0 10px 30px rgba(244,211,94,0.2);">
-            <div class="card-title">🥞 VIP Pancake Gold</div>
+        <div class="neon-card VIP-Pancake" style="border-top: 4px solid #f4d35e;">
+            <div class="card-title">🥞 Pancake Gold</div>
             <ul class="card-list">
-                <li>350€ cada 15 minutos</li>
-                <li>35k de Dinero inmediato</li>
-                <li>Rango Discord</li>
+                <li>350€ cada 15 min</li>
+                <li>35k Capital Inmediato</li>
+                <li>Rango Discord Especial</li>
+                <li>Chats VIP</li>
             </ul>
-            <div class="card-footer"><span class="price-tag">+15€ / Mes</span><a href="#" class="btn-action">Obtener</a></div>
+            <div class="card-footer"><span class="price-tag">15€</span><a href="#" class="btn-action">Obtener</a></div>
         </div>
 
-        <div class="neon-card border-full" style="border-color: #ee964b; box-shadow: 0 10px 30px rgba(238,150,75,0.2);">
-            <div class="card-title">🍡 VIP Mochi Jaspe</div>
+        <div class="neon-card VIP-Mochi" style="border-top: 4px solid #ee964b;">
+            <div class="card-title">🍡 Mochi Jaspe</div>
             <ul class="card-list">
-                <li>200€ cada 15 minutos</li>
-                <li>20k de Dinero inmediato</li>
+                <li>200€ cada 15 min</li>
+                <li>20k Capital Inmediato</li>
                 <li>Rango Discord</li>
             </ul>
-            <div class="card-footer"><span class="price-tag">+5€ / Mes</span><a href="#" class="btn-action">Obtener</a></div>
+            <div class="card-footer"><span class="price-tag">5€</span><a href="#" class="btn-action">Obtener</a></div>
         </div>
     </div>
 
-    <h2 class="section-title">Sistema de Donadores</h2>
-    <div class="grid-donadores">
-        <div class="donador-card"><div class="card-title">🍰 Pastel Supremo</div><p class="range-info">2500€ — 5000€</p></div>
-        <div class="donador-card"><div class="card-title">🍩 Donut Dorado</div><p class="range-info">1250€ — 2500€</p></div>
-        <div class="donador-card"><div class="card-title">🧁 Cupcake Real</div><p class="range-info">950€ — 1250€</p></div>
-        <div class="donador-card"><div class="card-title">🍫 Chocolate Maestro</div><p class="range-info">700€ — 950€</p></div>
-        <div class="donador-card"><div class="card-title">🍦 Conito Dulce</div><p class="range-info">500€ — 700€</p></div>
-        <div class="donador-card"><div class="card-title">🍧 Helado Cremoso</div><p class="range-info">250€ — 500€</p></div>
-        <div class="donador-card"><div class="card-title">🍭 Caramelo</h3><p class="range-info">100€ — 250€</p></div>
-        <div class="donador-card"><div class="card-title">🍮 Flan Inicial</div><p class="range-info">25€ — 100€</p></div>
-        <div class="donador-card"><div class="card-title"> waffle Donador waffle waffle</div><p class="range-info">0€ — 25€</p></div>
+    <div class="armas-banner">
+        <div class="armas-content">
+            <h3>🛡️ Suministros Élite de Rol</h3>
+            <p>Accede a nuestro arsenal coleccionista con sistema logístico integrado. Herramientas diseñadas para escenas de alto impacto sin interrupciones por stock.</p>
+        </div>
+        <a href="#" class="armas-btn-premium">Ver Catálogo</a>
     </div>
 
-    <div class="armas-section">
-        <h3 class="armas-title">🛡️ Suministros Élite de Rol</h3>
-        <p class="armas-text">Eleva tus escenas de acción con nuestra colección de armamento de edición coleccionista. Estos paquetes ofrecen herramientas de alta gama con un sistema logístico integrado, permitiéndote centrarte en el rol sin interrupciones por falta de suministros.</p>
-        <a href="#" class="armas-btn">Ver Colección de Suministros</a>
-    </div>
-        <h2 class="section-title">🏎️ Importaciones Dulce Élite</h2>
+    <h2 class="section-title">🏎️ Importaciones Élite</h2>
     <div class="neon-grid">
-        <div class="neon-card" style="border-bottom: 4px solid var(--accent-blue); padding: 0; overflow: hidden;">
-            <img src="https://via.placeholder.com/400x220/1a1a2e/70d6ff?text=COCHE+VIP+EJEMPLO" alt="Coche VIP" style="width: 100%; height: 220px; object-fit: cover;">
-            <div style="padding: 25px;">
-                <div class="card-title" style="margin-bottom: 10px;">Lamborghini Revuelto</div>
-                <p style="color: var(--dim-text); font-size: 0.9rem; margin-bottom: 20px;">
-                    Manejo (handling) deportivo personalizado, kit de luces neón y pintura perlada única.
-                </p>
-                <div class="card-footer">
-                    <span class="price-tag">25€</span>
-                    <a href="#" class="btn-action">Reservar</a>
-                </div>
+        <div class="neon-card coche-card">
+            <div class="coche-img-container">
+                <img src="https://via.placeholder.com/400x240/1a1a2e/70d6ff?text=Lamborghini+Revuelto" alt="Lamborghini Revuelto" class="coche-img">
+            </div>
+            <div style="padding: 30px;">
+                <div class="card-title">Lamborghini Revuelto</div>
+                <p style="color: var(--dim-text); font-size: 0.9rem; margin-bottom: 25px;">Handling deportivo optimizado y estética agresiva.</p>
+                <div class="card-footer"><span class="price-tag">25€</span><a href="#" class="btn-action">Reservar</a></div>
             </div>
         </div>
 
-        <div class="neon-card" style="border-bottom: 4px solid var(--accent-pink); padding: 0; overflow: hidden;">
-            <img src="https://via.placeholder.com/400x220/1a1a2e/ff85a1?text=COCHE+VIP+EJEMPLO" alt="Coche VIP" style="width: 100%; height: 220px; object-fit: cover;">
-            <div style="padding: 25px;">
-                <div class="card-title" style="margin-bottom: 10px;">Porsche 911 GT3</div>
-                <p style="color: var(--dim-text); font-size: 0.9rem; margin-bottom: 20px;">
-                    Edición especial Dulce RP. Máxima aceleración y sistema de frenado cerámico.
-                </p>
-                <div class="card-footer">
-                    <span class="price-tag">20€</span>
-                    <a href="#" class="btn-action">Reservar</a>
-                </div>
+        <div class="neon-card coche-card">
+            <div class="coche-img-container">
+                <img src="https://via.placeholder.com/400x240/1a1a2e/ff85a1?text=Porsche+GT3" alt="Porsche GT3" class="coche-img">
             </div>
-        </div>
-
-        <div class="neon-card" style="border-bottom: 4px solid var(--accent-gold); padding: 0; overflow: hidden;">
-            <img src="https://via.placeholder.com/400x220/1a1a2e/ffcc00?text=COCHE+VIP+EJEMPLO" alt="Coche VIP" style="width: 100%; height: 220px; object-fit: cover;">
-            <div style="padding: 25px;">
-                <div class="card-title" style="margin-bottom: 10px;">Mercedes G-Wagon</div>
-                <p style="color: var(--dim-text); font-size: 0.9rem; margin-bottom: 20px;">
-                    Blindaje estético reforzado y maletero con capacidad expandida para rol.
-                </p>
-                <div class="card-footer">
-                    <span class="price-tag">15€</span>
-                    <a href="#" class="btn-action">Reservar</a>
-                </div>
+            <div style="padding: 30px;">
+                <div class="card-title">Porsche 911 GT3</div>
+                <p style="color: var(--dim-text); font-size: 0.9rem; margin-bottom: 25px;">Edición especial Dulce RP con frenada mejorada.</p>
+                <div class="card-footer"><span class="price-tag">20€</span><a href="#" class="btn-action">Reservar</a></div>
             </div>
         </div>
     </div>
@@ -375,12 +414,13 @@
 </div>
 
 <footer>
-    <p>&copy; 2026 DULCE RP | FiveM Community</p>
-    <p style="margin-top: 10px; font-size: 0.7rem;">Las contribuciones son voluntarias y se destinan por completo al mantenimiento de la infraestructura del servidor.</p>
+    <p>&copy; 2026 DULCE RP | Comunidad FiveM</p>
+    <p style="margin-top: 10px; opacity: 0.6; font-size: 0.75rem;">Todas las contribuciones son voluntarias y ayudan a mantener la ciudad.</p>
 </footer>
 
 <script>
-    // Animación de aparición al hacer scroll
+    // 1. ANIMACIÓN DE APARICIÓN AL HACER SCROLL (Intersection Observer)
+    const observerOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -388,13 +428,38 @@
                 entry.target.style.transform = 'translateY(0)';
             }
         });
-    }, { threshold: 0.1 });
+    }, observerOptions);
 
-    document.querySelectorAll('.neon-card, .donador-card').forEach(card => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        card.style.transition = 'all 0.5s ease-out';
-        observer.observe(card);
+    document.querySelectorAll('.neon-card, .armas-banner').forEach(el => {
+        el.style.transition = 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)';
+        observer.observe(el);
+    });
+
+    // 2. EFECTO DE MOVIMIENTO 3D Y LUZ DE NEÓN QUE SIGUE AL RATÓN
+    const cards = document.querySelectorAll('.neon-card');
+    cards.forEach(card => {
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            // Efecto de inclinación 3D (tilt)
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const tiltX = (y - centerY) / 20; 
+            const tiltY = (centerX - x) / 20; 
+            
+            card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-10px)`;
+            
+            // Actualizar la posición del brillo neón (radial gradient)
+            card.style.setProperty('--x', `${x}px`);
+            card.style.setProperty('--y', `${y}px`);
+        });
+
+        // Resetear la inclinación al salir el ratón
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
+        });
     });
 </script>
 
