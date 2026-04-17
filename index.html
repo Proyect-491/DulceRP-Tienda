@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dulce RP | Sistema de Soporte y Beneficios</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --accent-gold: #ffcc00;
+            --accent-pink: #ff85a1;
+            --accent-blue: #70d6ff;
+            --text-main: #ffffff;
+            --text-dim: #b0b0b0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Fondo Animado */
+        .bg-animate {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #0a0a0a 100%);
+        }
+
+        .blob {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(45deg, #ff85a133, #70d6ff33);
+            filter: blur(80px);
+            border-radius: 50%;
+            animation: move 20s infinite alternate;
+        }
+
+        @keyframes move {
+            from { transform: translate(-10%, -10%); }
+            to { transform: translate(20%, 20%); }
+        }
+
+        header {
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            animation: fadeIn 1.5s ease;
+        }
+
+        header h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            letter-spacing: -2px;
+            background: linear-gradient(to right, var(--accent-pink), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: var(--text-dim);
+            max-width: 600px;
+            font-size: 1.1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        section {
+            margin-bottom: 100px;
+        }
+
+        h2.section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        h2.section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 4px;
+            background: var(--accent-pink);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        /* Grid de RANGOS DONADORES */
+        .donadores-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-pink);
+            box-shadow: 0 10px 30px rgba(255, 133, 161, 0.2);
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .price-tag {
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+            font-weight: 600;
+            display: block;
+            margin-top: 10px;
+        }
+
+        /* Sección VIP */
+        .vip-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .vip-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+            border-radius: 24px;
+            padding: 40px;
+            border-left: 5px solid var(--accent-blue);
+        }
+
+        .vip-card.popcorn { border-color: #ffca3a; }
+        .vip-card.miel { border-color: #ff9f1c; }
+        .vip-card.granizado { border-color: #118ab2; }
+
+        .vip-card ul {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .vip-card ul li {
+            margin-bottom: 12px;
+            color: var(--text-dim);
+            display: flex;
+            align-items: center;
+        }
+
+        .vip-card ul li::before {
+            content: '✦';
+            margin-right: 10px;
+            color: var(--accent-pink);
+        }
+
+        /* Sección Armas "Suministros" */
+        .armas-section {
+            background: rgba(255, 133, 161, 0.05);
+            padding: 60px;
+            border-radius: 40px;
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .armas-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .armas-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .armas-text h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .badge-p2w-no {
+            display: inline-block;
+            padding: 5px 15px;
+            background: rgba(112, 214, 255, 0.2);
+            color: var(--accent-blue);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 35px;
+            background: var(--accent-pink);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            box-shadow: 0 0 20px var(--accent-pink);
+            transform: scale(1.05);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.5rem; }
+            .armas-section { padding: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-animate">
+        <div class="blob"></div>
+    </div>
+
+    <header>
+        <h1>DULCE RP</h1>
+        <p>Un proyecto de comunidad donde tu apoyo nos ayuda a seguir construyendo el mundo de rol más ambicioso. Únete a nuestra élite de colaboradores.</p>
+    </header>
+
+    <div class="container">
+        
+        <section id="donadores">
+            <h2 class="section-title">Sistema de Donadores</h2>
+            <div class="donadores-grid">
+                <div class="card">
+                    <h3>🍰 Pastel Supremo</h3>
+                    <p>El estatus máximo en la ciudad. Reconocimiento total y soporte prioritario.</p>
+                    <span class="price-tag">Donación: 2500€ — 5000€</span>
+                </div>
+                <div class="card">
+                    <h3>🍩 Donut Dorado</h3>
+                    <p>Soporte de alto nivel para usuarios que creen en el proyecto.</p>
+                    <span class="price-tag">Donación: 1250€ — 2500€</span>
+                </div>
+                <div class="card">
+                    <h3>🧁 Cupcake Real</h3>
+                    <p>Un rango de prestigio con beneficios estéticos exclusivos.</p>
+                    <span class="price-tag">Donación: 950€ — 1250€</span>
+                </div>
+                <div class="card">
+                    <h3>🍧 Helado Cremoso</h3>
+                    <p>Acceso intermedio con ventajas en la comunidad de Discord.</p>
+                    <span class="price-tag">Donación: 250€ — 500€</span>
+                </div>
+                <div class="card">
+                    <h3>🍮 Flan Inicial</h3>
+                    <p>Tu primer paso apoyando el crecimiento del servidor.</p>
+                    <span class="price-tag">Donación: 25€ — 100€</span>
+                </div>
+                <div class="card">
+                    <h3>🧇 Donador</h3>
+                    <p>Contribución esencial para el mantenimiento mensual.</p>
+                    <span class="price-tag">Donación: 0€ — 25€</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="vips">
+            <h2 class="section-title">Membresías VIP</h2>
+            <div class="vip-grid">
+                <div class="vip-card popcorn">
+                    <h3>🍿 VIP Popcorn Suprema</h3>
+                    <ul>
+                        <li>2000€ de asignación cada 15 min</li>
+                        <li>750k de Capital Inicial Inmediato</li>
+                        <li>Acceso a Concesionario VIP (Modelos Exclusivos)</li>
+                        <li>Gestión de Inmobiliaria Privada</li>
+                        <li>Sorteos de alta gama mensuales</li>
+                    </ul>
+                    <span class="price-tag">+80€ / Mes</span>
+                </div>
+
+                <div class="vip-card miel">
+                    <h3>🍯 VIP Miel Diamante</h3>
+                    <ul>
+                        <li>1250€ de asignación cada 15 min</li>
+                        <li>450k de Capital Inicial Inmediato</li>
+                        <li>Acceso a Concesionario VIP</li>
+                        <li>Rango Exclusivo en nuestra comunidad</li>
+                        <li>Sorteos exclusivos</li>
+                    </ul>
+                    <span class="price-tag">+65€ / Mes</span>
+                </div>
+
+                <div class="vip-card granizado">
+                    <h3>🍧 VIP Granizado Ultra</h3>
+                    <ul>
+                        <li>725€ de asignación cada 15 min</li>
+                        <li>100k de Capital Inicial Inmediato</li>
+                        <li>Acceso a Concesionario VIP</li>
+                        <li>Rango Discord Especial</li>
+                    </ul>
+                    <span class="price-tag">+45€ / Mes</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="suministros">
+            <div class="armas-section">
+                <div class="armas-content">
+                    <div class="armas-text">
+                        <span class="badge-p2w-no">Ediciones Coleccionista</span>
+                        <h3>Colección de Seguridad y Estilo</h3>
+                        <p>
+                            En Dulce RP, entendemos que el rol de acción requiere las mejores herramientas. 
+                            Nuestros paquetes de <strong>Suministros Élite</strong> ofrecen armamento con acabados estéticos únicos y un <strong>sistema de logística integrada</strong>.
+                        </p>
+                        <ul style="list-style: none; margin-top: 20px;">
+                            <li>✅ <strong>Logística Infinita:</strong> Suministro automático de munición para que tu rol no se detenga por falta de stock.</li>
+                            <li>✅ <strong>Seguridad Avanzada:</strong> Equipo de alta durabilidad con trazabilidad personalizada.</li>
+                            <li>✅ <strong>Estética Premium:</strong> Grabados únicos no disponibles en tiendas comunes.</li>
+                        </ul>
+                        <a href="#" class="btn">Explorar Armería Élite</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Dulce RP. Todos los derechos reservados.</p>
+        <p style="margin-top: 10px; font-size: 0.7rem;">Las donaciones son voluntarias y se utilizan para mejorar la estabilidad y contenido del servidor. No se realizan reembolsos.</p>
+    </footer>
+
+    <script>
+        // Efecto de scroll suave para las tarjetas
+        const cards = document.querySelectorAll('.card, .vip-card');
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        cards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s ease-out';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
